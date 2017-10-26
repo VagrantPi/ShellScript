@@ -1,0 +1,4 @@
+#!/bin/sh
+
+find . -iname "*$@*" 2> /dev/null | grep --color "$@"
+

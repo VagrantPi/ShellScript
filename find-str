@@ -1,0 +1,17 @@
+#!/bin/bash
+
+LASTFILENAME=''
+find . -path "./node_modules" -prune -o -name '*' -print | xargs grep -n "$@" 2> /dev/null | while read line; do
+  FILENAME=`cut -d ':' -f 1  - <<< $line`
+  if test -f "$FILENAME"; then
+    if [ "$LASTFILENAME" != "$FILENAME" ]; then
+      echo '============================'
+      echo 'file: '$FILENAME
+    fi
+    echo $line | cut -d ':' -f 2- | grep --color "$@"
+  else
+    echo $line
+  fi
+  LASTFILENAME="$FILENAME"
+done
+
